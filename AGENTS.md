@@ -2,10 +2,10 @@
 
 ## Purpose
 
-`ego` (tagline: Anton Ego's "Do you know what I'm craving? A little perspective.") is an LLM-powered pull request review GitHub Action for the `ctrl-research` org (previously `ctrl-research/ai-reviewer`, and before that `ctrl-research/actions/pr-review`). It ships two artifacts that must stay in sync:
+`ego` (tagline: Anton Ego's "Do you know what I'm craving? A little perspective.") is an LLM-powered pull request review GitHub Action for the `thanoslabs` org (formerly the `ctrl-research` org; previously `ctrl-research/ai-reviewer`, and before that `ctrl-research/actions/pr-review`). It ships two artifacts that must stay in sync:
 
-- **Composite action**: `action.yaml` at the repo root, consumed as `ctrl-research/ego@<ref>`
-- **Reusable workflow**: `.github/workflows/pr-review.yaml` (`on: workflow_call`), consumed as `ctrl-research/ego/.github/workflows/pr-review.yaml@<ref>`
+- **Composite action**: `action.yaml` at the repo root, consumed as `thanoslabs/ego@<ref>`
+- **Reusable workflow**: `.github/workflows/pr-review.yaml` (`on: workflow_call`), consumed as `thanoslabs/ego/.github/workflows/pr-review.yaml@<ref>`
 
 The review logic is a dependency-free Go program (`cmd/ego`, `internal/...`); `action.yaml` only obtains the binary and passes inputs to it as `EGO_*` environment variables.
 
@@ -22,7 +22,7 @@ The review logic is a dependency-free Go program (`cmd/ego`, `internal/...`); `a
 .
 ├── .agents/                  # Agent instructions and skills
 ├── .github/
-│   ├── CODEOWNERS            # @ctrl-research/reviewers
+│   ├── CODEOWNERS            # @thanoslabs/reviewers
 │   ├── renovate-config.js    # Renovate platform config
 │   └── workflows/
 │       ├── ci.yml            # YAML parse + committed-secrets check
@@ -67,7 +67,7 @@ Note: the template's YAML check only `echo`s on invalid YAML — it does not fai
 
 - `action.yaml` — composite action wrapper. For a bare `X.Y.Z` `github.action_ref` it downloads `ego_<os>_<arch>[.exe]` from that GitHub release and checks it against `checksums.txt`; for any other ref (or a missing asset) it runs `actions/setup-go` and builds from `github.action_path`. It then runs the binary with every input mapped to an `EGO_*` env var.
 - The binary: validate config (`internal/review/config.go`) → fetch PR metadata and diff via the forge REST API (no checkout needed) → build the prompt (`internal/review/prompt.go`, asking for JSON matching `report.Schema`) → call the LLM (native structured output on supported Anthropic models) → parse and render the review (`internal/report`; raw output with a warning if parsing fails) → post a sticky PR comment (identified by the `<!-- pr-review-action -->` marker, updated in place on re-runs) → write the `review` output. Keep the marker stable so existing comments keep being updated.
-- `.github/workflows/pr-review.yaml` — reusable workflow wrapper that maps `workflow_call` inputs/secrets onto the composite action (`ctrl-research/ego@main`).
+- `.github/workflows/pr-review.yaml` — reusable workflow wrapper that maps `workflow_call` inputs/secrets onto the composite action (`thanoslabs/ego@main`).
 
 Forge abstraction: `github` (`Authorization: Bearer`, diff via `Accept: application/vnd.github.v3.diff`) vs `forgejo`/`gitea` (`Authorization: token`, diff at `/pulls/<n>.diff`).
 

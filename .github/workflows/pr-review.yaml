@@ -99,7 +99,7 @@ jobs:
     runs-on: ${{ inputs.runs-on }}
     steps:
       - name: PR Review
-        uses: ctrl-research/ego@main
+        uses: thanoslabs/ego@main
         with:
           platform: ${{ inputs.platform }}
           api-url: ${{ inputs.api-url || github.api_url }}

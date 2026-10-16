@@ -121,7 +121,7 @@ runs:
         # Release tags are bare X.Y.Z and have prebuilt binaries. Any other ref
         # (a branch such as main, or a commit SHA) is built from source.
         if [[ "$ACTION_REF" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ && -n "$os" && -n "$arch" ]]; then
-          base="https://github.com/ctrl-research/ego/releases/download/$ACTION_REF"
+          base="https://github.com/thanoslabs/ego/releases/download/$ACTION_REF"
           asset="ego_${os}_${arch}${ext}"
           if curl -fsSL --retry 2 -o "$bin" "$base/$asset" &&
              curl -fsSL --retry 2 -o "$bin_dir/checksums.txt" "$base/checksums.txt"; then

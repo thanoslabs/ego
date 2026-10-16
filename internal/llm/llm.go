@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ctrl-research/ego/internal/httpx"
+	"github.com/thanoslabs/ego/internal/httpx"
 )
 
 // Provider names accepted by New.

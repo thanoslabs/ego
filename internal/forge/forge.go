@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ctrl-research/ego/internal/httpx"
+	"github.com/thanoslabs/ego/internal/httpx"
 )
 
 // Platform selects API differences between forges.

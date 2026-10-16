@@ -1,3 +1,3 @@
-module github.com/ctrl-research/ego
+module github.com/thanoslabs/ego
 
 go 1.27

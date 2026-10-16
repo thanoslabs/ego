@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ctrl-research/ego/internal/httpx"
+	"github.com/thanoslabs/ego/internal/httpx"
 )
 
 type captured struct {
