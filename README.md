@@ -102,7 +102,7 @@ permissions:
 
 jobs:
   review:
-    uses: ctrl-research/ego/.github/workflows/pr-review.yaml@main
+    uses: thanoslabs/ego/.github/workflows/pr-review.yaml@main
     with:
       provider: anthropic
       model: claude-opus-4-8
@@ -117,7 +117,7 @@ Point at any OpenAI-compatible endpoint. Use a self-hosted runner label if the e
 ```yaml
 jobs:
   review:
-    uses: ctrl-research/ego/.github/workflows/pr-review.yaml@main
+    uses: thanoslabs/ego/.github/workflows/pr-review.yaml@main
     with:
       provider: openai-compatible
       base-url: http://ollama.internal:11434/v1
@@ -130,7 +130,7 @@ jobs:
 ```yaml
 jobs:
   review:
-    uses: ctrl-research/ego/.github/workflows/pr-review.yaml@main
+    uses: thanoslabs/ego/.github/workflows/pr-review.yaml@main
     with:
       provider: openai
       model: gpt-4o
@@ -152,7 +152,7 @@ jobs:
     runs-on: docker
     steps:
       - name: PR Review
-        uses: https://github.com/ctrl-research/ego@main
+        uses: https://github.com/thanoslabs/ego@main
         with:
           platform: forgejo
           provider: anthropic
@@ -176,7 +176,7 @@ jobs:
     steps:
       - name: PR Review
         id: review
-        uses: ctrl-research/ego@main
+        uses: thanoslabs/ego@main
         with:
           provider: anthropic
           model: claude-opus-4-8
@@ -189,7 +189,7 @@ jobs:
 
 ## Versioning
 
-Releases are tagged with bare SemVer (`X.Y.Z`, no `v` prefix). Pin to a release tag (e.g. `ctrl-research/ego@1.0.0`) instead of `@main` for reproducible reviews. Note that the reusable workflow always calls the composite action at `@main` (built from source on every run); use the composite action directly if you need the whole pipeline pinned or want the prebuilt binary.
+Releases are tagged with bare SemVer (`X.Y.Z`, no `v` prefix). Pin to a release tag (e.g. `thanoslabs/ego@1.0.0`) instead of `@main` for reproducible reviews. Note that the reusable workflow always calls the composite action at `@main` (built from source on every run); use the composite action directly if you need the whole pipeline pinned or want the prebuilt binary.
 
 Merging a PR to `main` cuts a release from its `major`/`minor`/`patch` label (default `patch`); the **Release** workflow can also be dispatched manually with an explicit version.
 
@@ -200,7 +200,7 @@ The same binary works as a CLI. Non-secret settings are flags (see `ego --help`)
 ```bash
 go build -o ego ./cmd/ego
 EGO_TOKEN="$(gh auth token)" EGO_API_KEY="$ANTHROPIC_API_KEY" \
-  ./ego --repo ctrl-research/ego --pr 42 --post-comment=false
+  ./ego --repo thanoslabs/ego --pr 42 --post-comment=false
 ```
 
 With `--post-comment=false` and no `GITHUB_OUTPUT` set, the review is printed to stdout.
@@ -261,7 +261,7 @@ For example, to fail the job on a blocking review:
 
 - **Choose the trigger with your secrets in mind.** `ego` never needs the PR's code checked out: it reads the diff through the API. That makes either trigger workable, with different trade-offs:
   - **`pull_request`**: fork PRs get no secrets and a read-only token, so the review simply fails for them. But GitHub runs the workflow file *from the PR branch*, so anyone who can push a branch to your repo can edit the workflow to print your LLM key.
-  - **`pull_request_target`**: GitHub runs the workflow file from the base branch, so a PR can't change what runs or reach the secrets through it. This is safe **only if the job never checks out or executes PR code**. Don't add `actions/checkout` with the PR head ref, and use `ego` from a pinned release (`ctrl-research/ego@X.Y.Z`), not `./`. Fork PRs then get reviewed with your secrets and LLM quota; skip them with `if: github.event.pull_request.head.repo.full_name == github.repository` if you don't want that.
+  - **`pull_request_target`**: GitHub runs the workflow file from the base branch, so a PR can't change what runs or reach the secrets through it. This is safe **only if the job never checks out or executes PR code**. Don't add `actions/checkout` with the PR head ref, and use `ego` from a pinned release (`thanoslabs/ego@X.Y.Z`), not `./`. Fork PRs then get reviewed with your secrets and LLM quota; skip them with `if: github.event.pull_request.head.repo.full_name == github.repository` if you don't want that.
   - Either way, anyone with write access can still reach repo and org secrets through *other* workflows they push. For a key you want locked down, store it as an [environment](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment) secret limited to `main` (with `pull_request_target`, jobs run on `main`), rather than as a repo or org secret.
 - **The PR title, body, and diff are untrusted, attacker-controlled input** that is fed to the LLM. The review comment is therefore attacker-influenceable: a malicious PR can attempt prompt injection to skew the review or embed misleading links. The system prompt instructs the model to treat PR content as data, but treat the generated review as advisory, not authoritative. Keep a human in the loop for merge decisions.
 - The LLM endpoint (`base-url`) receives the full diff. Point it only at an endpoint you trust; use `provider: openai-compatible` with a self-hosted model to keep code on your own infrastructure.

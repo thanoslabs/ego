@@ -9,10 +9,10 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/ctrl-research/ego/internal/forge"
-	"github.com/ctrl-research/ego/internal/gha"
-	"github.com/ctrl-research/ego/internal/llm"
-	"github.com/ctrl-research/ego/internal/report"
+	"github.com/thanoslabs/ego/internal/forge"
+	"github.com/thanoslabs/ego/internal/gha"
+	"github.com/thanoslabs/ego/internal/llm"
+	"github.com/thanoslabs/ego/internal/report"
 )
 
 // Marker identifies the sticky review comment. It is shared with the earlier

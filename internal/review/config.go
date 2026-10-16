@@ -10,9 +10,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ctrl-research/ego/internal/forge"
-	"github.com/ctrl-research/ego/internal/llm"
-	"github.com/ctrl-research/ego/internal/report"
+	"github.com/thanoslabs/ego/internal/forge"
+	"github.com/thanoslabs/ego/internal/llm"
+	"github.com/thanoslabs/ego/internal/report"
 )
 
 // Config is the full set of review settings. In the action every field comes
