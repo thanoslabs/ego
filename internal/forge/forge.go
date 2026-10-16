@@ -94,46 +94,54 @@ type comment struct {
 // returns the same comments forever.
 const maxCommentPages = 100
 
-// FindComment returns the ID of the first issue comment on the PR whose body
-// starts with marker, or 0 if there is none.
-func (c *Client) FindComment(ctx context.Context, number int, marker string) (int64, error) {
+// maxMarkerComments caps how many marker comments UpsertComment tries to
+// edit, so a PR flooded with planted markers can't cost a request each.
+const maxMarkerComments = 10
+
+// FindComments returns the IDs of the issue comments on the PR whose body
+// starts with marker, oldest first, up to maxMarkerComments.
+func (c *Client) FindComments(ctx context.Context, number int, marker string) ([]int64, error) {
 	// GitHub pages with per_page (max 100); Gitea/Forgejo use limit (default
 	// max 50) and ignore per_page.
 	sizeParam := "per_page=100"
 	if c.Platform != GitHub {
 		sizeParam = "limit=50"
 	}
+	var ids []int64
 	seen := map[int64]bool{}
 	for page := 1; page <= maxCommentPages; page++ {
 		url := fmt.Sprintf("%s?%s&page=%d", c.repoURL("issues", strconv.Itoa(number), "comments"), sizeParam, page)
 		body, _, err := httpx.Do(ctx, c.HTTP, c.Retry, c.request(http.MethodGet, url, "application/json", nil), maxJSONBody, http.StatusOK)
 		if err != nil {
-			return 0, fmt.Errorf("list PR comments: %w", err)
+			return nil, fmt.Errorf("list PR comments: %w", err)
 		}
 		var comments []comment
 		if err := json.Unmarshal(body, &comments); err != nil {
-			return 0, fmt.Errorf("decode PR comments: %w", err)
+			return nil, fmt.Errorf("decode PR comments: %w", err)
 		}
 		// Stop on an empty page, or when a page repeats comments already seen
 		// (the endpoint is not actually paginating).
 		if len(comments) == 0 || seen[comments[0].ID] {
-			return 0, nil
+			return ids, nil
 		}
 		for _, cm := range comments {
 			if strings.HasPrefix(cm.Body, marker) {
-				return cm.ID, nil
+				ids = append(ids, cm.ID)
+				if len(ids) == maxMarkerComments {
+					return ids, nil
+				}
 			}
 			seen[cm.ID] = true
 		}
 	}
-	return 0, nil
+	return ids, nil
 }
 
 // UpsertComment updates the sticky comment identified by marker, or creates it
 // if none exists. body must already start with marker. It reports whether a
 // new comment was created and the comment's ID when known.
 func (c *Client) UpsertComment(ctx context.Context, number int, marker, body string) (created bool, id int64, err error) {
-	id, err = c.FindComment(ctx, number, marker)
+	ids, err := c.FindComments(ctx, number, marker)
 	if err != nil {
 		return false, 0, err
 	}
@@ -142,15 +150,18 @@ func (c *Client) UpsertComment(ctx context.Context, number int, marker, body str
 		return false, 0, err
 	}
 
-	if id != 0 {
+	// Anyone can post a comment that starts with the marker, and a token can
+	// only edit some comments: a review left by an earlier identity (e.g.
+	// github-actions[bot] before switching to a GitHub App) is read-only to
+	// the new one. Skip matches that aren't ours to edit and keep looking, so
+	// later runs update our own comment instead of posting a new one each time.
+	for _, id := range ids {
 		_, _, err := httpx.Do(ctx, c.HTTP, httpx.Retry{},
 			c.request(http.MethodPatch, c.repoURL("issues", "comments", strconv.FormatInt(id, 10)), "application/json", payload),
 			maxJSONBody, http.StatusOK, http.StatusCreated)
 		if err == nil {
 			return false, id, nil
 		}
-		// Anyone can post a comment that starts with the marker. If the match
-		// isn't ours to edit, post a fresh comment instead of failing.
 		var serr *httpx.StatusError
 		if !errors.As(err, &serr) || (serr.Status != http.StatusForbidden && serr.Status != http.StatusNotFound) {
 			return false, id, fmt.Errorf("update review comment %d: %w", id, err)
