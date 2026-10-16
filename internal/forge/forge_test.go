@@ -198,9 +198,9 @@ func TestFindCommentStopsWhenPaginationIgnored(t *testing.T) {
 	f.addComment("a")
 	f.addComment("b")
 
-	id, err := c.FindComment(context.Background(), 7, "<!-- m -->")
-	if err != nil || id != 0 {
-		t.Fatalf("id=%d err=%v", id, err)
+	ids, err := c.FindComments(context.Background(), 7, "<!-- m -->")
+	if err != nil || len(ids) != 0 {
+		t.Fatalf("ids=%v err=%v", ids, err)
 	}
 	if n := len(f.requests); n != 2 {
 		t.Errorf("made %d list requests, want 2 (stop on repeated page)", n)
@@ -215,5 +215,40 @@ func TestUpsertFallsBackWhenMatchIsNotEditable(t *testing.T) {
 	created, id, err := c.UpsertComment(context.Background(), 7, "<!-- m -->", "<!-- m -->\n\nreview")
 	if err != nil || !created || id == spoof {
 		t.Fatalf("created=%v id=%d err=%v", created, id, err)
+	}
+}
+
+// After switching identity (e.g. github-actions[bot] to a GitHub App), the old
+// review can't be edited. The first run posts a new comment; later runs must
+// update that one rather than post another each time.
+func TestUpsertUpdatesOwnCommentAfterUneditableOne(t *testing.T) {
+	f, c := newFakeForge(t, GitHub)
+	old := f.addComment("<!-- m -->\n\nreview by the previous identity")
+	f.forbid[old] = true
+
+	created, id, err := c.UpsertComment(context.Background(), 7, "<!-- m -->", "<!-- m -->\n\nfirst")
+	if err != nil || !created || id == old {
+		t.Fatalf("first upsert: created=%v id=%d err=%v", created, id, err)
+	}
+	created, id2, err := c.UpsertComment(context.Background(), 7, "<!-- m -->", "<!-- m -->\n\nsecond")
+	if err != nil || created || id2 != id {
+		t.Fatalf("second upsert: created=%v id=%d (want %d) err=%v", created, id2, id, err)
+	}
+	if n := len(f.comments); n != 2 {
+		t.Errorf("comment count = %d, want 2", n)
+	}
+	if got := f.comments[1].Body; got != "<!-- m -->\n\nsecond" {
+		t.Errorf("own comment body = %q", got)
+	}
+}
+
+func TestFindCommentsCapsMatches(t *testing.T) {
+	f, c := newFakeForge(t, GitHub)
+	for range maxMarkerComments + 5 {
+		f.addComment("<!-- m --> planted")
+	}
+	ids, err := c.FindComments(context.Background(), 7, "<!-- m -->")
+	if err != nil || len(ids) != maxMarkerComments {
+		t.Fatalf("got %d ids, want %d (err=%v)", len(ids), maxMarkerComments, err)
 	}
 }
