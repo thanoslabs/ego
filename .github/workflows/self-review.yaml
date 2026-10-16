@@ -27,8 +27,10 @@ concurrency:
 jobs:
   review:
     # Fork PRs are skipped: they'd be reviewed safely (no PR code runs), but
-    # would spend the org's LLM quota on anyone's PR.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # would spend the org's LLM quota on anyone's PR. Compare repo IDs, not
+    # names: re-runs replay the original event, so after a rename or transfer
+    # the old head.repo.full_name no longer matches github.repository.
+    if: github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id
     runs-on: ubuntu-latest
     steps:
       - name: Checkout merged code (base branch)
