@@ -13,11 +13,11 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/ctrl-research/ego/internal/forge"
-	"github.com/ctrl-research/ego/internal/gha"
-	"github.com/ctrl-research/ego/internal/httpx"
-	"github.com/ctrl-research/ego/internal/llm"
-	"github.com/ctrl-research/ego/internal/review"
+	"github.com/thanoslabs/ego/internal/forge"
+	"github.com/thanoslabs/ego/internal/gha"
+	"github.com/thanoslabs/ego/internal/httpx"
+	"github.com/thanoslabs/ego/internal/llm"
+	"github.com/thanoslabs/ego/internal/review"
 )
 
 // version is set at build time with -ldflags "-X main.version=X.Y.Z".

@@ -3,7 +3,7 @@ package review
 import (
 	"strings"
 
-	"github.com/ctrl-research/ego/internal/report"
+	"github.com/thanoslabs/ego/internal/report"
 )
 
 // basePrompt is the built-in reviewer prompt. It asks for a JSON review

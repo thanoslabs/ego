@@ -27,8 +27,10 @@ concurrency:
 jobs:
   review:
     # Fork PRs are skipped: they'd be reviewed safely (no PR code runs), but
-    # would spend the org's LLM quota on anyone's PR.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # would spend the org's LLM quota on anyone's PR. Compare repo IDs, not
+    # names: re-runs replay the original event, so after a rename or transfer
+    # the old head.repo.full_name no longer matches github.repository.
+    if: github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id
     runs-on: ubuntu-latest
     steps:
       - name: Checkout merged code (base branch)
@@ -48,6 +50,11 @@ jobs:
           base-url: ${{ secrets.MINIMAX_API_URL }}
           api-key: ${{ secrets.MINIMAX_API_TOKEN }}
           model: MiniMax-M3
+          # Reasoning and the review share this budget; 16k ran out on large
+          # diffs before any review was written. MiniMax-M3 has run at roughly
+          # 40-70 tokens/s, so 32k can take ~8-14 minutes, inside ego's
+          # 20-minute LLM request timeout.
+          max-tokens: "32000"
           # Return reasoning in reasoning_content instead of inline <think>
           # tags, which can't be split reliably from the review text.
           extra-body: '{"reasoning_split": true}'
