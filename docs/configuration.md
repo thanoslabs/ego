@@ -6,7 +6,7 @@ tags:
 
 ## Inputs
 
-Inputs of the composite action (`uses: ctrl-research/ego@<ref>`). Booleans are the strings `"true"` or `"false"`.
+Inputs of the composite action (`uses: thanoslabs/ego@<ref>`). Booleans are the strings `"true"` or `"false"`.
 
 | Input | Default | Description |
 |---|---|---|
@@ -41,7 +41,7 @@ Outputs contain model-written text that a PR can influence. In later steps, pass
 
 ## The reusable workflow
 
-`ctrl-research/ego/.github/workflows/pr-review.yaml` accepts the same inputs, except `github-token` and `pr-number` (it uses the job token and the triggering PR), plus:
+`thanoslabs/ego/.github/workflows/pr-review.yaml` accepts the same inputs, except `github-token` and `pr-number` (it uses the job token and the triggering PR), plus:
 
 | Input | Default | Description |
 |---|---|---|

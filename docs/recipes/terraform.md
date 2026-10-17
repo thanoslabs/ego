@@ -23,4 +23,4 @@ Adjust the list to your own conventions. It's fixed guidance written by you, whi
 
 <!-- include: examples/terraform.yaml -->
 
-[View on GitHub](https://github.com/ctrl-research/ego/blob/main/examples/terraform.yaml)
+[View on GitHub](https://github.com/thanoslabs/ego/blob/main/examples/terraform.yaml)

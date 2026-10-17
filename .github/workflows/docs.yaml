@@ -28,7 +28,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # ctrl-research/nebula-md, pinned to a commit: its code runs in a job whose
+  # thanoslabs/nebula-md, pinned to a commit: its code runs in a job whose
   # output is published. Bump deliberately.
   NEBULA_REF: 6a4af29c88830f6d4317e871e6632127108ff93a
 
@@ -44,7 +44,7 @@ jobs:
       - name: Checkout nebula-md
         uses: actions/checkout@v7.0.1
         with:
-          repository: ctrl-research/nebula-md
+          repository: thanoslabs/nebula-md
           ref: ${{ env.NEBULA_REF }}
           path: .nebula
           persist-credentials: false

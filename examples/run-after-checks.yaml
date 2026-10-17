@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Review with ego
         id: ego
-        uses: ctrl-research/ego@main # pin a release (e.g. @X.Y.Z) to use the prebuilt binary
+        uses: thanoslabs/ego@main # pin a release (e.g. @X.Y.Z) to use the prebuilt binary
         with:
           api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 

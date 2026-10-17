@@ -13,4 +13,4 @@ When your checks live in a separate workflow file, start `ego` with `workflow_ru
 
 <!-- include: examples/after-other-workflows.yaml -->
 
-[View on GitHub](https://github.com/ctrl-research/ego/blob/main/examples/after-other-workflows.yaml)
+[View on GitHub](https://github.com/thanoslabs/ego/blob/main/examples/after-other-workflows.yaml)

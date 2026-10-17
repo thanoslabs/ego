@@ -14,4 +14,4 @@ Run `ego` after the other jobs in the same workflow, so its review is the last t
 
 <!-- include: examples/run-after-checks.yaml -->
 
-[View on GitHub](https://github.com/ctrl-research/ego/blob/main/examples/run-after-checks.yaml)
+[View on GitHub](https://github.com/thanoslabs/ego/blob/main/examples/run-after-checks.yaml)

@@ -7,7 +7,7 @@
 
 The name also borrows from Freud. In his model of the mind, the *id* acts on impulse, the *superego* holds the rules, and the *ego* weighs the two against reality before anything happens. Agentic development has the same shape: coding agents generate changes on impulse, your conventions sit above them, and `ego` is the reality check before anything reaches `main`.
 
-**📖 Documentation: https://ctrl-research.github.io/ego/**
+**📖 Documentation: https://thanoslabs.github.io/ego/**
 
 ## What you get
 
@@ -33,7 +33,7 @@ permissions:
 
 jobs:
   review:
-    uses: ctrl-research/ego/.github/workflows/pr-review.yaml@main
+    uses: thanoslabs/ego/.github/workflows/pr-review.yaml@main
     secrets:
       llm-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
@@ -44,16 +44,16 @@ Open a pull request, and the review appears as a comment.
 
 | Page | Covers |
 |---|---|
-| [Getting started](https://ctrl-research.github.io/ego/getting-started) | Setup, the composite action, other providers, Forgejo |
-| [The review](https://ctrl-research.github.io/ego/review) | The sections, tuning (`concise`, `extra-prompt`, `review-prompt`), gating on the verdict, cost |
-| [Configuration](https://ctrl-research.github.io/ego/configuration) | Every input and output, and `extra-body` |
-| [Recipes](https://ctrl-research.github.io/ego/recipes/index) | Running after other checks, Terraform, `workflow_run`, your own bot identity ([`examples/`](examples/)) |
-| [Providers and forges](https://ctrl-research.github.io/ego/providers) | Anthropic, OpenAI, MiniMax, Ollama; GitHub and Forgejo |
-| [Security](https://ctrl-research.github.io/ego/security) | `pull_request` vs `pull_request_target`, secrets, untrusted input |
-| [Running locally](https://ctrl-research.github.io/ego/cli) | The binary as a CLI |
-| [Releases and development](https://ctrl-research.github.io/ego/development) | Versioning, release labels, the codebase, building the docs |
+| [Getting started](https://thanoslabs.github.io/ego/getting-started) | Setup, the composite action, other providers, Forgejo |
+| [The review](https://thanoslabs.github.io/ego/review) | The sections, tuning (`concise`, `extra-prompt`, `review-prompt`), gating on the verdict, cost |
+| [Configuration](https://thanoslabs.github.io/ego/configuration) | Every input and output, and `extra-body` |
+| [Recipes](https://thanoslabs.github.io/ego/recipes/index) | Running after other checks, Terraform, `workflow_run`, your own bot identity ([`examples/`](examples/)) |
+| [Providers and forges](https://thanoslabs.github.io/ego/providers) | Anthropic, OpenAI, MiniMax, Ollama; GitHub and Forgejo |
+| [Security](https://thanoslabs.github.io/ego/security) | `pull_request` vs `pull_request_target`, secrets, untrusted input |
+| [Running locally](https://thanoslabs.github.io/ego/cli) | The binary as a CLI |
+| [Releases and development](https://thanoslabs.github.io/ego/development) | Versioning, release labels, the codebase, building the docs |
 
-The site is built from [`docs/`](docs/) with [nebula-md](https://github.com/ctrl-research/nebula-md).
+The site is built from [`docs/`](docs/) with [nebula-md](https://github.com/thanoslabs/nebula-md).
 
 ## Contributing
 

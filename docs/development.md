@@ -8,7 +8,7 @@ tags:
 
 Releases are tagged with bare SemVer (`X.Y.Z`, no `v` prefix), and each release ships prebuilt binaries for Linux, macOS and Windows on amd64 and arm64, with SHA-256 checksums.
 
-- **Pin a release** (`ctrl-research/ego@X.Y.Z`) for reproducible reviews and the prebuilt binary.
+- **Pin a release** (`thanoslabs/ego@X.Y.Z`) for reproducible reviews and the prebuilt binary.
 - **`@main`** always has the latest changes, and builds from source on every run.
 - **The reusable workflow** always calls the action at `@main`. Use the composite action directly if you need the whole pipeline pinned.
 
@@ -40,15 +40,15 @@ A specific version can also be released by running the **Release** workflow manu
 | `internal/httpx` | HTTP client that never follows redirects, retries, bounded response bodies |
 | `internal/gha` | Workflow commands and `$GITHUB_OUTPUT` |
 | `examples/` | The workflows behind the [recipes](recipes/index), linted in CI |
-| `docs/` | This site, built with [nebula-md](https://github.com/ctrl-research/nebula-md) |
+| `docs/` | This site, built with [nebula-md](https://github.com/thanoslabs/nebula-md) |
 
-Contributor and agent guidelines are in [`AGENTS.md`](https://github.com/ctrl-research/ego/blob/main/AGENTS.md) and [`CONTRIBUTING.md`](https://github.com/ctrl-research/ego/blob/main/CONTRIBUTING.md).
+Contributor and agent guidelines are in [`AGENTS.md`](https://github.com/thanoslabs/ego/blob/main/AGENTS.md) and [`CONTRIBUTING.md`](https://github.com/thanoslabs/ego/blob/main/CONTRIBUTING.md).
 
 ## Building the docs
 
 ```bash
 # Build nebula-md at the commit pinned in .github/workflows/docs.yaml.
-git clone https://github.com/ctrl-research/nebula-md /tmp/nebula-md
+git clone https://github.com/thanoslabs/nebula-md /tmp/nebula-md
 git -C /tmp/nebula-md checkout <NEBULA_REF from docs.yaml>
 (cd /tmp/nebula-md/src && go build -o /tmp/nebula .)
 

@@ -8,7 +8,7 @@ Post reviews as your own GitHub App (for example `ego[bot]` with its own avatar)
 
 ## Setup
 
-1. Create a GitHub App with these repository permissions: **Pull requests: Read and write**, and **Contents: Read**.
+1. Create a GitHub App with one repository permission: **Pull requests: Read and write**. `ego` reads the PR and its diff and posts its comment through the pull request API, so it needs nothing else.
 2. Install it on the repositories to review.
 3. Store its client ID as the `EGO_APP_CLIENT_ID` Actions variable, and its private key as the `EGO_APP_PRIVATE_KEY` secret.
 
@@ -16,4 +16,4 @@ Existing reviews posted by `github-actions[bot]` can't be edited by the app, so 
 
 <!-- include: examples/app-identity.yaml -->
 
-[View on GitHub](https://github.com/ctrl-research/ego/blob/main/examples/app-identity.yaml)
+[View on GitHub](https://github.com/thanoslabs/ego/blob/main/examples/app-identity.yaml)

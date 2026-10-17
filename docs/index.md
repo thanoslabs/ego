@@ -35,7 +35,7 @@ permissions:
 
 jobs:
   review:
-    uses: ctrl-research/ego/.github/workflows/pr-review.yaml@main
+    uses: thanoslabs/ego/.github/workflows/pr-review.yaml@main
     secrets:
       llm-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```

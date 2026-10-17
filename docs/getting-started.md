@@ -10,7 +10,7 @@ tags:
 
 - **A workflow** that calls `ego`, with `pull-requests: write` in its `permissions:`. Declaring it works even when the organization's default token is read-only.
 - **An LLM key**, as a repository secret or an organization secret shared with the repository. Self-hosted models may not need one.
-- **Actions enabled** for the repository. If the organization allows only selected actions, add `ctrl-research/ego@*`, plus `actions/setup-go@*` if you use `ego` from a branch or commit instead of a release, since those build from source.
+- **Actions enabled** for the repository. If the organization allows only selected actions, add `thanoslabs/ego@*`, plus `actions/setup-go@*` if you use `ego` from a branch or commit instead of a release, since those build from source.
 
 No `actions/checkout` step is needed: `ego` reads the PR's title, description and diff through the forge's API.
 
@@ -29,7 +29,7 @@ permissions:
 
 jobs:
   review:
-    uses: ctrl-research/ego/.github/workflows/pr-review.yaml@main
+    uses: thanoslabs/ego/.github/workflows/pr-review.yaml@main
     with:
       provider: anthropic
       model: claude-opus-4-8
@@ -49,7 +49,7 @@ jobs:
     steps:
       - name: Review with ego
         id: ego
-        uses: ctrl-research/ego@main # or a release, e.g. @X.Y.Z
+        uses: thanoslabs/ego@main # or a release, e.g. @X.Y.Z
         with:
           api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 
@@ -73,7 +73,7 @@ The reusable workflow always calls the action at `@main`, which builds from sour
 ```yaml
 jobs:
   review:
-    uses: ctrl-research/ego/.github/workflows/pr-review.yaml@main
+    uses: thanoslabs/ego/.github/workflows/pr-review.yaml@main
     with:
       provider: openai
       model: gpt-4o
@@ -86,7 +86,7 @@ jobs:
 ```yaml
 jobs:
   review:
-    uses: ctrl-research/ego/.github/workflows/pr-review.yaml@main
+    uses: thanoslabs/ego/.github/workflows/pr-review.yaml@main
     with:
       provider: openai-compatible
       base-url: http://ollama.internal:11434/v1
@@ -98,7 +98,7 @@ jobs:
 
 ```yaml
       - name: Review with ego
-        uses: ctrl-research/ego@main
+        uses: thanoslabs/ego@main
         with:
           provider: openai-compatible
           base-url: https://api.minimax.io/v1
@@ -124,7 +124,7 @@ jobs:
     runs-on: docker
     steps:
       - name: Review with ego
-        uses: https://github.com/ctrl-research/ego@main
+        uses: https://github.com/thanoslabs/ego@main
         with:
           platform: forgejo
           provider: anthropic

@@ -14,8 +14,8 @@ tags:
 
 **`pull_request_target`**
 - GitHub runs the workflow file from the base branch, so a PR can't change what runs or reach the secrets through it.
-- This is safe **only if the job never checks out or runs PR code.** Don't add `actions/checkout` with the PR's head ref, and use `ego` from a pinned release (`ctrl-research/ego@X.Y.Z`), not `./`.
-- PRs from forks then get reviewed with your secrets and LLM quota. To skip them, add `if: github.event.pull_request.head.repo.full_name == github.repository`.
+- This is safe **only if the job never checks out or runs PR code.** Don't add `actions/checkout` with the PR's head ref, and use `ego` from a pinned release (`thanoslabs/ego@X.Y.Z`), not `./`.
+- PRs from forks then get reviewed with your secrets and LLM quota. To skip them, add `if: github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id`. Compare repository IDs rather than names: re-runs replay the original event, so after a rename or transfer a name check skips every re-run.
 
 **Either way,** anyone with write access can still reach repository and organization secrets through *other* workflows they push. For a key you want locked down, store it as an [environment secret](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment) limited to `main`, rather than as a repository or organization secret. With `pull_request_target`, jobs run on `main`, so they can use it.
 

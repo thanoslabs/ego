@@ -80,7 +80,7 @@ The `verdict` output is `approve`, `needs_changes` or `blocking`. To fail the jo
 ```yaml
       - name: Review with ego
         id: ego
-        uses: ctrl-research/ego@main
+        uses: thanoslabs/ego@main
         with:
           api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 

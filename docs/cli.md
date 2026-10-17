@@ -14,7 +14,7 @@ With the Go version pinned in the repository's `.tool-versions`:
 go build -o ego ./cmd/ego
 ```
 
-Or download a prebuilt binary (`ego_<os>_<arch>`) from a [release](https://github.com/ctrl-research/ego/releases).
+Or download a prebuilt binary (`ego_<os>_<arch>`) from a [release](https://github.com/thanoslabs/ego/releases).
 
 ## Run
 
@@ -22,7 +22,7 @@ Non-secret settings are flags. Secrets come from the environment only, so they n
 
 ```bash
 EGO_TOKEN="$(gh auth token)" EGO_API_KEY="$ANTHROPIC_API_KEY" \
-  ./ego --repo ctrl-research/ego --pr 42 --post-comment=false
+  ./ego --repo thanoslabs/ego --pr 42 --post-comment=false
 ```
 
 With `--post-comment=false` and no `GITHUB_OUTPUT` set, the rendered review is printed to stdout.

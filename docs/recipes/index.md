@@ -4,7 +4,7 @@ tags:
   - recipe
 ---
 
-Complete workflows for common setups. Each one is a real file in [`examples/`](https://github.com/ctrl-research/ego/tree/main/examples), linted in CI, so you can copy it as-is.
+Complete workflows for common setups. Each one is a real file in [`examples/`](https://github.com/thanoslabs/ego/tree/main/examples), linted in CI, so you can copy it as-is.
 
 | Recipe | When to use it |
 |---|---|
