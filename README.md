@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/thanoslabs/ego/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/thanoslabs/ego/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/thanoslabs/ego?sort=semver&display_name=tag)](https://github.com/thanoslabs/ego/releases/latest)
-[![Docs](https://github.com/thanoslabs/ego/actions/workflows/docs.yaml/badge.svg?branch=main)](https://thanoslabs.github.io/ego/)
 [![Docs site](https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=github)](https://thanoslabs.github.io/ego/)
 
 > *"Do you know what I'm craving? A little perspective."*
